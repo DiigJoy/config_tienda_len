@@ -1,11 +1,24 @@
-spring:
-  application:
-    name: discovery-service
-
+# Archivo: discovery-service.yml en tu repo Git
 server:
   port: 8761
 
+spring:
+  application:
+    name: discovery-service
+  security:
+    user:
+      name: admin
+      password: ${EUREKA_PASSWORD:admin123} # Usar variable de entorno
+
 eureka:
+  instance:
+    hostname: localhost
   client:
     register-with-eureka: false
     fetch-registry: false
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false # Para desarrollo
+    eviction-interval-timer-in-ms: 5000
+    renewal-percent-threshold: 0.85

@@ -1,12 +1,25 @@
-spring:
-  cloud:
-    config:
-      allowOverride: true
-      overrideNone: false
-      overrideSystemProperties: false
+# Archivo: application.yml en tu repo Git
+# Configuración común para todos los microservicios
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:admin123@localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 management:
   endpoints:
     web:
       exposure:
         include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+  level:
+    com.tienda.len: DEBUG
